@@ -1,47 +1,42 @@
 # ==============================================================
-# Projeto: Jogo do Moinho (Nine Men’s Morris simplificado 3x3)
-# ==============================================================
-# NOTA IMPORTANTE:
-# - Todo o código deve estar neste único ficheiro.
-# - Não usar acentos nem caracteres fora do ASCII.
-# - Implementar as funções pela ordem indicada.
+# Project: Jogo do Moinho (Nine Men’s Morris simplified 3x3)
 # ==============================================================
 
 # ==============================================================
-# TAD POSICAO
+# TAD POSITION
 # ==============================================================
 
-def cria_posicao(c, l):
+def create_position(c, l):
     """
-    cria_posicao: str x str -> posicao
-    Cria uma posicao a partir de coluna (c) e linha (l).
-    Colunas validas: 'a', 'b', 'c'
-    Linhas validas: '1', '2', '3'
-    Se os argumentos nao forem validos, lanca:
-        ValueError('cria_posicao: argumentos invalidos')
+    create_position: str x str -> position
+    Creates a position from column (c) and row (r).
+    Valid columns: 'a', 'b', 'c'
+    Valid rows: '1', '2', '3'
+    If the arguments are invalid, raises:
+        ValueError('create_position: invalid arguments')
     """
     if c not in ('a', 'b', 'c') or l not in ('1', '2', '3'):
-        raise ValueError('cria_posicao: argumentos invalidos')
-    return (c, l)  # representacao interna: tuplo (coluna, linha)
+        raise ValueError('create_position: invalid arguments')
+    return (c, l)  # internal representation: tuple (column, row)
 
 
-def cria_copia_posicao(p):
-    """cria_copia_posicao: posicao -> posicao"""
+def create_copy_position(p):
+    """create_copy_position: position -> position"""
     return (p[0], p[1])
 
 
-def obter_pos_c(p):
-    """obter_pos_c: posicao -> str (coluna)"""
+def get_pos_c(p):
+    """get_pos_c: position -> str (column)"""
     return p[0]
 
 
-def obter_pos_l(p):
-    """obter_pos_l: posicao -> str (linha)"""
+def get_pos_l(p):
+    """get_pos_l: position -> str (line)"""
     return p[1]
 
 
-def eh_posicao(arg):
-    """eh_posicao: universal -> booleano"""
+def eh_position(arg):
+    """eh_position: universal -> boolean"""
     return (
         isinstance(arg, tuple) and
         len(arg) == 2 and
@@ -50,20 +45,20 @@ def eh_posicao(arg):
     )
 
 
-def posicoes_iguais(p1, p2):
-    """posicoes_iguais: posicao x posicao -> booleano"""
-    return eh_posicao(p1) and eh_posicao(p2) and p1 == p2
+def eh_position(p1, p2):
+    """eh_position: position x position -> boolean"""
+    return eh_position(p1) and eh_position(p2) and p1 == p2
 
 
-def posicao_para_str(p):
-    """posicao_para_str: posicao -> str (ex: 'a1')"""
+def position_for_str(p):
+    """position_for_str: position -> str (ex: 'a1')"""
     return p[0] + p[1]
 
 
-def obter_posicoes_adjacentes(p):
+def get_adjacent_positions(p):
     """
-    obter_posicoes_adjacentes: posicao -> tuplo de posicoes
-    Devolve as posicoes adjacentes a p, segundo a ordem de leitura do tabuleiro.
+    get_adjacent_positions: position -> tuple of positions
+    Returns the positions adjacent to p, according to the reading order of the board.
     """
     adj = {
         ('a', '1'): [('b', '1'), ('a', '2')],
@@ -82,20 +77,20 @@ def obter_posicoes_adjacentes(p):
 # TAD PECA
 # ==============================================================
 
-def cria_peca(s):
+def create_item(s):
     """
-    cria_peca: str -> peca
-    Cria uma peca do jogador 'X', 'O' ou livre (' ').
-    Representacao interna: string simples ('X', 'O' ou ' ').
-    Lanca ValueError se o argumento for invalido.
+    create_item: str -> peca
+    Creates a piece for player 'X', 'O' or free (' ').
+    Internal representation: simple string ('X', 'O' or ' ').
+    Throws ValueError if the argument is invalid.
     """
     if s not in ('X', 'O', ' '):
-        raise ValueError('cria_peca: argumento invalido')
+        raise ValueError('create_item: invalid argument')
     return s
 
 
-def cria_copia_peca(j):
-    """cria_copia_peca: peca -> peca"""
+def create_copy_part(j):
+    """create_copy_part: part -> part"""
     return j
 
 
@@ -146,7 +141,7 @@ def cria_copia_tabuleiro(t):
 
 def obter_peca(t, p):
     """obter_peca: tabuleiro x posicao -> peca"""
-    return t[posicao_para_str(p)]
+    return t[position_for_str(p)]
 
 
 def obter_vetor(t, s):
@@ -165,21 +160,21 @@ def obter_vetor(t, s):
 
 def coloca_peca(t, j, p):
     """coloca_peca: tabuleiro x peca x posicao -> tabuleiro"""
-    t[posicao_para_str(p)] = j
+    t[position_for_str(p)] = j
     return t
 
 
 def remove_peca(t, p):
     """remove_peca: tabuleiro x posicao -> tabuleiro"""
-    t[posicao_para_str(p)] = ' '
+    t[position_for_str(p)] = ' '
     return t
 
 
 def move_peca(t, p1, p2):
     """move_peca: tabuleiro x posicao x posicao -> tabuleiro"""
-    j = t[posicao_para_str(p1)]
-    t[posicao_para_str(p1)] = ' '
-    t[posicao_para_str(p2)] = j
+    j = t[position_for_str(p1)]
+    t[position_for_str(p1)] = ' '
+    t[position_for_str(p2)] = j
     return t
 
 
@@ -224,9 +219,9 @@ def eh_tabuleiro(arg):
     return True
 
 
-def eh_posicao_livre(t, p):
-    """eh_posicao_livre: tabuleiro x posicao -> booleano"""
-    return t[posicao_para_str(p)] == ' '
+def eh_position_livre(t, p):
+    """eh_position_livre: tabuleiro x posicao -> booleano"""
+    return t[position_for_str(p)] == ' '
 
 
 def tabuleiros_iguais(t1, t2):
@@ -287,12 +282,12 @@ def obter_ganhador(t):
 
 def obter_posicoes_livres(t):
     """obter_posicoes_livres: tabuleiro -> tuplo de posicoes"""
-    return tuple(cria_posicao(p[0], p[1]) for p, j in t.items() if j == ' ')
+    return tuple(create_position(p[0], p[1]) for p, j in t.items() if j == ' ')
 
 
 def obter_posicoes_jogador(t, j):
     """obter_posicoes_jogador: tabuleiro x peca -> tuplo de posicoes"""
-    return tuple(cria_posicao(p[0], p[1]) for p, jj in t.items() if jj == j)
+    return tuple(create_position(p[0], p[1]) for p, jj in t.items() if jj == j)
 
 # ==============================================================
 # FUNCOES AUXILIARES - movimento manual
@@ -325,11 +320,11 @@ def obter_movimento_manual(t, j):
 
         c, l = escolha[0], escolha[1]
         try:
-            p = cria_posicao(c, l)
+            p = create_position(c, l)
         except ValueError:
             raise ValueError("obter_movimento_manual: escolha invalida")
 
-        if not eh_posicao_livre(t, p):
+        if not eh_position_livre(t, p):
             raise ValueError("obter_movimento_manual: escolha invalida")
 
         return (p,)
@@ -342,8 +337,8 @@ def obter_movimento_manual(t, j):
 
         c1, l1, c2, l2 = escolha[0], escolha[1], escolha[2], escolha[3]
         try:
-            p1 = cria_posicao(c1, l1)
-            p2 = cria_posicao(c2, l2)
+            p1 = create_position(c1, l1)
+            p2 = create_position(c2, l2)
         except ValueError:
             raise ValueError("obter_movimento_manual: escolha invalida")
 
@@ -352,15 +347,15 @@ def obter_movimento_manual(t, j):
             raise ValueError("obter_movimento_manual: escolha invalida")
 
         # se p1 == p2 (passar turno), permitido
-        if posicoes_iguais(p1, p2):
+        if eh_position(p1, p2):
             return (p1, p2)
 
         # destino tem de ser livre
-        if not eh_posicao_livre(t, p2):
+        if not eh_position_livre(t, p2):
             raise ValueError("obter_movimento_manual: escolha invalida")
 
         # destino tem de ser adjacente à origem
-        if p2 not in obter_posicoes_adjacentes(p1):
+        if p2 not in get_adjacent_positions(p1):
             raise ValueError("obter_movimento_manual: escolha invalida")
 
         return (p1, p2)
@@ -400,20 +395,20 @@ def obter_movimento_auto(t, j, nivel):
                 return (p,)
 
         # 3. Centro
-        centro = cria_posicao('b', '2')
-        if eh_posicao_livre(t, centro):
+        centro = create_position('b', '2')
+        if eh_position_livre(t, centro):
             return (centro,)
 
         # 4. Canto
-        for p in [cria_posicao('a','1'), cria_posicao('c','1'),
-                  cria_posicao('a','3'), cria_posicao('c','3')]:
-            if eh_posicao_livre(t, p):
+        for p in [create_position('a','1'), create_position('c','1'),
+                  create_position('a','3'), create_position('c','3')]:
+            if eh_position_livre(t, p):
                 return (p,)
 
         # 5. Lateral
-        for p in [cria_posicao('b','1'), cria_posicao('a','2'),
-                  cria_posicao('c','2'), cria_posicao('b','3')]:
-            if eh_posicao_livre(t, p):
+        for p in [create_position('b','1'), create_position('a','2'),
+                  create_position('c','2'), create_position('b','3')]:
+            if eh_position_livre(t, p):
                 return (p,)
 
     # ---------------------------
@@ -423,8 +418,8 @@ def obter_movimento_auto(t, j, nivel):
         if nivel == 'facil':
             # primeira peca que possa mover
             for p1 in obter_posicoes_jogador(t, j):
-                for p2 in obter_posicoes_adjacentes(p1):
-                    if eh_posicao_livre(t, p2):
+                for p2 in get_adjacent_positions(p1):
+                    if eh_position_livre(t, p2):
                         return (p1, p2)
             # se todas bloqueadas -> passa turno
             return (pecas_jogador[0], pecas_jogador[0])
@@ -458,8 +453,8 @@ def minimax_escolha(t, jogador, profundidade):
 
     # Gerar todos os movimentos possiveis
     for p1 in obter_posicoes_jogador(t, jogador):
-        for p2 in obter_posicoes_adjacentes(p1):
-            if eh_posicao_livre(t, p2):
+        for p2 in get_adjacent_positions(p1):
+            if eh_position_livre(t, p2):
                 copia = cria_copia_tabuleiro(t)
                 move_peca(copia, p1, p2)
                 valor, _ = minimax_escolha(copia, adversario, profundidade-1)
@@ -520,7 +515,7 @@ def moinho(jogador, dificuldade):
                 coloca_peca(t, humano, mov[0])
             else:
                 mov = obter_movimento_manual(t, humano)  # fase movimento
-                if posicoes_iguais(mov[0], mov[1]):  # passar turno
+                if eh_position(mov[0], mov[1]):  # passar turno
                     pass
                 else:
                     move_peca(t, mov[0], mov[1])
@@ -533,7 +528,7 @@ def moinho(jogador, dificuldade):
                 coloca_peca(t, computador, mov[0])
             else:
                 mov = obter_movimento_auto(t, computador, dificuldade)  # movimento
-                if posicoes_iguais(mov[0], mov[1]):  # passar turno
+                if eh_position(mov[0], mov[1]):  # passar turno
                     pass
                 else:
                     move_peca(t, mov[0], mov[1])
