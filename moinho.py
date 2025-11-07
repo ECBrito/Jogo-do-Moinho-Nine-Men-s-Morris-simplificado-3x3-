@@ -7,7 +7,7 @@
 # ==============================================================
 
 # ==============================================================
-# TAD POSICAO
+# TAD POSITION
 # ==============================================================
 
 def cria_posicao(c, l):
@@ -250,8 +250,8 @@ def obter_movimento_auto(t, j, nivel):
     else:
         if nivel == 'facil':
             for p1 in obter_posicoes_jogador(t, j):
-                for p2 in obter_posicoes_adjacentes(p1):
-                    if eh_posicao_livre(t, p2):
+                for p2 in get_adjacent_positions(p1):
+                    if eh_position_livre(t, p2):
                         return (p1, p2)
             return (pecas_jogador[0], pecas_jogador[0])
         if nivel == 'normal':
@@ -283,8 +283,8 @@ def minimax_escolha(t, jogador, profundidade):
         return (0, None)
     movimentos = []
     for p1 in obter_posicoes_jogador(t, jogador):
-        for p2 in obter_posicoes_adjacentes(p1):
-            if eh_posicao_livre(t, p2):
+        for p2 in get_adjacent_positions(p1):
+            if eh_position_livre(t, p2):
                 copia = cria_copia_tabuleiro(t)
                 move_peca(copia, p1, p2)
                 valor, _ = minimax_escolha(copia, adversario, profundidade - 1)
